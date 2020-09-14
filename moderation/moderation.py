@@ -4,6 +4,7 @@ from core import checks
 from core.models import PermissionLevel
 
 class moderation(commands.Cog):
+    """Basic moderation commands."""
 
     def __init__(self, bot):
         self.bot = bot
@@ -23,6 +24,9 @@ class moderation(commands.Cog):
     @commands.command(aliases = ["clear"])
     @checks.has_permissions(PermissionLevel.SUPPORTER)
     async def purge(self, ctx, amount = 10):
+        """Purge messages from a channel.
+        By default, it purges the last ten messages unless an amount is put. 
+        """
         max_purge = 2000
         if amount >= 1 and amount <= max_purge:
             await ctx.channel.purge(limit = amount + 1)
@@ -74,6 +78,9 @@ class moderation(commands.Cog):
     @commands.command()
     @checks.has_permissions(PermissionLevel.MODERATOR)
     async def kick(self, ctx, member : discord.Member = None, *, reason = None):
+        """Kick a user.
+        You can also specify a reason as well. 
+        """
         if member == None:
             embed = discord.Embed(
                 title = "Kick Error",
@@ -141,6 +148,9 @@ class moderation(commands.Cog):
     @commands.command()
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def ban(self, ctx, member : discord.Member = None, *, reason = None):
+        """Ban a user.
+        You can also specify a reason.
+        """
         if member == None:
             embed = discord.Embed(
                 title = "Ban Error",
@@ -207,6 +217,8 @@ class moderation(commands.Cog):
     @commands.command()
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def unban(self, ctx, *, member : discord.User = None):
+        """Unban a user.
+        """
         if member == None:
             embed = discord.Embed(
                 title = "Unban Error",
@@ -253,6 +265,9 @@ class moderation(commands.Cog):
     @commands.command()
     @checks.has_permissions(PermissionLevel.MODERATOR)
     async def mute(self, ctx, member : discord.Member = None, *, reason = None):
+        """Mute a user.
+        You can also specify a reason.
+        """
         if member == None:
             embed = discord.Embed(
                 title = "Mute Error",
@@ -330,6 +345,8 @@ class moderation(commands.Cog):
     @commands.command()
     @checks.has_permissions(PermissionLevel.MODERATOR)
     async def unmute(self, ctx, member : discord.Member = None):
+        """Unmute a user.
+        """
         if member == None:
             embed = discord.Embed(
                 title = "Unmute Error",
@@ -379,6 +396,9 @@ class moderation(commands.Cog):
     @commands.command(aliases = ["lightban"])
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def softban(self, ctx, member : discord.Member = None, *, reason = None):
+        """Softban a user.
+        You can also specify a reason.
+        """
         if member == None:
             embed = discord.Embed(
                 title = "Softban Error",
@@ -448,6 +468,8 @@ class moderation(commands.Cog):
     @commands.command()
     @checks.has_permissions(PermissionLevel.MODERATOR)
     async def nuke(self, ctx):
+        """Nuke (delete) the current channel.
+        """
         channel_position = ctx.channel.position
         new_channel = await ctx.channel.clone()
         await new_channel.edit(reason = f"Nuke by {ctx.message.author.name}#{ctx.message.author.discriminator}", position = channel_position)
